@@ -19,11 +19,11 @@ const useStyles = createUseStyles({
   }
 })
 
-const App = props => {
+const App = () => {
 
   const classes = useStyles()
-
   const firebase = useContext(FirebaseContext)
+
   const [completed, setCompleted] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
@@ -39,7 +39,8 @@ const App = props => {
       parentName: values.parentName,
       mobileNumber: values.mobileNumber,
       childName: values.childName,
-      checkInTime: time
+      checkInTime: time,
+      serverTimestamp: firebase.timestamp
     }).then(() => {
       setCompleted(true)
     })
@@ -56,6 +57,6 @@ const App = props => {
       }
     </div>
   )
-};
+}
 
 export default App;

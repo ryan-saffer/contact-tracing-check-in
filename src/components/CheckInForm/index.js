@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {createUseStyles} from 'react-jss'
 import { Form, Input, Button, Select, Row, Divider } from 'antd';
 
@@ -6,7 +6,8 @@ const { Option } = Select;
 
 const useStyles = createUseStyles({
     form: {
-        width: '80%'
+        width: '80%',
+        maxWidth: 500
     }
 })
 
@@ -24,18 +25,16 @@ const CheckInForm = props => {
         <Row type="flex" justify="center">
             <Form className={classes.form} form={form} layout='vertical' onFinish={onSubmit} name="control-hooks">
                 <Form.Item name="parentName" label="Your Name" rules={[{ required: true, message: "Name is required" }]}>
-                    <Input />
+                    <Input size="large" />
                 </Form.Item>
                 <Form.Item name="mobileNumber" label="Your Mobile Number" rules={[{ required: true, message: "Mobile number is required" }]}>
-                    <Input />
+                    <Input size="large" />
                 </Form.Item>
                 <Form.Item name="childName" label="Your Child's Name" rules={[{ required: false }]}>
-                    <Input placeholder="Enter all children you are dropping off" />
+                    <Input size="large" placeholder="Enter all children you are dropping off" />
                 </Form.Item>
                 <Form.Item name="store" label="Store" rules={[{ required: true, message: "Store is required" }]}>
-                    <Select
-                        allowClear
-                    >
+                    <Select allowClear size="large">
                         <Option value="balwyn">Balwyn</Option>
                         <Option value="essendon">Essendon</Option>
                     </Select>
