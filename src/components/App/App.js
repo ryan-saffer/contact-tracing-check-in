@@ -48,6 +48,9 @@ const App = () => {
     }).then(() => {
       play()
       setCompleted(true)
+      setTimeout(() => {
+        window.location.href="https://www.fizzkidz.com.au"
+      }, 2000)
     })
     .catch(err => {
       console.error(err)
