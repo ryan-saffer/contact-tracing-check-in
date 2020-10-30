@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react';
 import './App.css';
 import {createUseStyles} from 'react-jss'
-import { Divider, Select } from 'antd';
+import { message } from 'antd';
+import useSound from 'use-sound'
+import alert from '../../audio/alert.mp3'
 import { FirebaseContext } from '../Firebase';
 import * as Logo from '../../drawables/FizzKidzLogoHorizontal.png'
 import CheckInForm from '../CheckInForm/index'
@@ -27,13 +29,15 @@ const App = () => {
   const [completed, setCompleted] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
+  const [play] = useSound(alert)
+
   const onSubmit = values => {
 
     setDisabled(true)
 
     const date = new Date()
     const dateString = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`
-    const time = `${date.getHours()}:${("0" + date.getMinutes()).slice(-2)}`
+    const time = `${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
 
     firebase.database.ref(`${values.store}/${dateString}`).push({
       parentName: values.parentName,
@@ -42,7 +46,13 @@ const App = () => {
       checkInTime: time,
       serverTimestamp: firebase.timestamp
     }).then(() => {
+      play()
       setCompleted(true)
+    })
+    .catch(err => {
+      console.error(err)
+      message.error("Something went wrong while checking in.")
+      setDisabled(false)
     })
   }
 
