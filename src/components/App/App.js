@@ -8,6 +8,7 @@ import { FirebaseContext } from '../Firebase';
 import * as Logo from '../../drawables/FizzKidzLogoHorizontal.png'
 import CheckInForm from '../CheckInForm/index'
 import SuccessResult from '../Result';
+import * as Utilities from '../../utilities'
 
 const useStyles = createUseStyles({
   logoWrapper: {
@@ -36,13 +37,13 @@ const App = () => {
     setDisabled(true)
 
     const date = new Date()
-    const dateString = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`
-    const time = `${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
+    const dateString = `${date.getFullYear()}${Utilities.toTwoDigits(date.getMonth() + 1)}${Utilities.toTwoDigits(date.getDate())}`
+    const time = `${Utilities.toTwoDigits(date.getHours())}:${Utilities.toTwoDigits(date.getMinutes())}`
 
     firebase.database.ref(`${values.store}/${dateString}`).push({
       parentName: values.parentName,
-      mobileNumber: values.mobileNumber,
-      childName: values.childName,
+      mobileNumber: `${values.prefix}${values.mobileNumber}`,
+      children: values.children ?? null,
       checkInTime: time,
       serverTimestamp: firebase.timestamp
     }).then(() => {
