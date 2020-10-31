@@ -96,7 +96,12 @@ const CheckInForm = props => {
                 <Form.Item
                     name="noSymptoms"
                     valuePropName="checked"
-                    rules={[{ required: true, message: "Cannot check-in if feeling unwell" }]}
+                    rules={[
+                        {
+                            validator: (_, value) =>
+                                value ? Promise.resolve() : Promise.reject('Cannot check-in if feeling unwell'),
+                        }
+                    ]}
                 >
                     <Checkbox>I am not currently suffering from any flu-like symptoms</Checkbox>
                 </Form.Item>
