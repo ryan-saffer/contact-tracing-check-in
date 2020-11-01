@@ -2,6 +2,7 @@ import React from 'react'
 import {createUseStyles} from 'react-jss'
 import { Form, Input, Button, Select, Row, Divider, Space, Spin, Typography, Checkbox } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import PrivacyInformation from './PrivacyInformation'
 
 const { Text } = Typography
 const { Option } = Select;
@@ -18,7 +19,7 @@ const useStyles = createUseStyles({
         display: 'flex',
     },
     submitButton: {
-        marginTop: 8
+        marginTop: 24
     },
     spinWrapper: {
         display: 'flex',
@@ -26,7 +27,7 @@ const useStyles = createUseStyles({
         alignItems: 'center'
     },
     spin: {
-        marginTop: 16
+        marginTop: 32
     }
 })
 
@@ -93,18 +94,7 @@ const CheckInForm = props => {
                         <Option value="essendon">Essendon</Option>
                     </Select>
                 </Form.Item>
-                <Form.Item
-                    name="noSymptoms"
-                    valuePropName="checked"
-                    rules={[
-                        {
-                            validator: (_, value) =>
-                                value ? Promise.resolve() : Promise.reject('Cannot check-in if feeling unwell'),
-                        }
-                    ]}
-                >
-                    <Checkbox>I am not currently suffering from any flu-like symptoms</Checkbox>
-                </Form.Item>
+                <PrivacyInformation />
                 <Form.Item>
                     {disabled
                         ? <div className={classes.spinWrapper}><Spin className={classes.spin} /></div>
