@@ -100,7 +100,7 @@ const CheckInForm = props => {
                         ? <div className={classes.spinWrapper}><Spin className={classes.spin} /></div>
                         : (
                             <Button className={classes.submitButton} type="primary" size="large" htmlType="submit" block disabled={disabled}>
-                                Submit
+                                Check in
                             </Button>
                         )
                     }

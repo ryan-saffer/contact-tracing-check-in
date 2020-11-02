@@ -39,7 +39,7 @@ const App = () => {
     const date = new Date()
     const dateString = `${date.getFullYear()}${Utilities.toTwoDigits(date.getMonth() + 1)}${Utilities.toTwoDigits(date.getDate())}`
     const time = `${Utilities.toTwoDigits(date.getHours())}:${Utilities.toTwoDigits(date.getMinutes())}`
-
+    
     firebase.database.ref(`${values.store}/${dateString}`).push({
       parentName: values.parentName,
       mobileNumber: `${values.prefix}${values.mobileNumber}`,
