@@ -1,5 +1,5 @@
 {
   "projects": {
-    "default": "contact-tracing-check-in"
+    "default": "contact-tracing-checkin"
   }
 }

@@ -9,12 +9,6 @@ import GitHubForkRibbon from 'react-github-fork-ribbon';
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>
     <App />
-    <GitHubForkRibbon 
-      target="_blank"
-      position="right"
-    >
-      Demo App
-    </GitHubForkRibbon>
   </FirebaseContext.Provider>,
   document.getElementById('root')
 );
