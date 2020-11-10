@@ -4,7 +4,6 @@ import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 import Firebase, { FirebaseContext } from './components/Firebase'
-import GitHubForkRibbon from 'react-github-fork-ribbon';
 
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>

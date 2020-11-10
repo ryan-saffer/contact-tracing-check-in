@@ -34,24 +34,35 @@ const App = () => {
 
   const onSubmit = values => {
 
+    console.log(values)
+
     setDisabled(true)
 
     const date = new Date()
     const dateString = `${date.getFullYear()}${Utilities.toTwoDigits(date.getMonth() + 1)}${Utilities.toTwoDigits(date.getDate())}`
     const time = `${Utilities.toTwoDigits(date.getHours())}:${Utilities.toTwoDigits(date.getMinutes())}`
     
+    // first write to database
     firebase.database.ref(`${values.store}/${dateString}`).push({
       parentName: values.parentName,
       mobileNumber: `${values.prefix}${values.mobileNumber}`,
+      email: values.email ?? null,
       children: values.children ?? null,
       checkInTime: time,
       serverTimestamp: firebase.timestamp
     }).then(() => {
-      play()
-      setCompleted(true)
-      setTimeout(() => {
-        window.location.href="https://www.fizzkidz.com.au"
-      }, 2000)
+      // then write to hubspot if requested
+      if (values.recieveMarketing) {
+        firebase.functions.httpsCallable('writeToHubspot')(values)
+          .catch(err => console.error(err))
+          .finally(() => {
+            play()
+            setCompleted(true)
+            setTimeout(() => {
+              window.location.href="https://www.fizzkidz.com.au"
+            }, 2000)
+          })
+      }
     })
     .catch(err => {
       console.error(err)

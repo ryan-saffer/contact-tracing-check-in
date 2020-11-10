@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {createUseStyles} from 'react-jss'
 import { Form, Input, Button, Select, Row, Divider, Space, Spin, Typography, Checkbox } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -18,7 +18,10 @@ const useStyles = createUseStyles({
     child: {
         display: 'flex',
     },
-    submitButton: {
+    privacyInformation: {
+        marginBottom: 24
+    },
+    marketingCheckbox: {
         marginTop: 24
     },
     spinWrapper: {
@@ -37,6 +40,8 @@ const CheckInForm = props => {
 
     const { onSubmit, disabled } = props
 
+    const [requestMarketingChecked, setRequestMarketingChecked] = useState(false)
+
     const [form] = Form.useForm();
 
     const prefixSelector = (
@@ -49,6 +54,10 @@ const CheckInForm = props => {
 
     const initialValues = {
         prefix: "+61"
+    }
+
+    const onMarketingCheckboxChange = e => {
+        setRequestMarketingChecked(e.target.checked)
     }
 
     return (
@@ -95,11 +104,20 @@ const CheckInForm = props => {
                     </Select>
                 </Form.Item>
                 <PrivacyInformation />
+                <Form.Item name="recieveMarketing" valuePropName="checked">
+                    <Checkbox className={classes.marketingCheckbox}checked={requestMarketingChecked} onChange={onMarketingCheckboxChange}>
+                        I would like to additionally sign up to know about what services Fizz Kidz offers
+                    </Checkbox>
+                </Form.Item>
+                {requestMarketingChecked &&
+                <Form.Item name="email" label="Email address" rules={[{ required: true, message: "In order to additionally sign up to our mailing list, email is required" }]}>
+                    <Input size="large" />
+                </Form.Item>}
                 <Form.Item>
                     {disabled
                         ? <div className={classes.spinWrapper}><Spin className={classes.spin} /></div>
                         : (
-                            <Button className={classes.submitButton} type="primary" size="large" htmlType="submit" block disabled={disabled}>
+                            <Button type="primary" size="large" htmlType="submit" block disabled={disabled}>
                                 Check in
                             </Button>
                         )
