@@ -28,9 +28,6 @@ const useStyles = createUseStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
-    },
-    spin: {
-        marginTop: 32
     }
 })
 
@@ -97,16 +94,15 @@ const CheckInForm = props => {
                     </>
                     )}
                 </Form.List>
-                <Form.Item name="store" label="Store" rules={[{ required: true, message: "Store is required" }]}>
-                    <Select allowClear size="large">
-                        <Option value="balwyn">Balwyn</Option>
-                        <Option value="essendon">Essendon</Option>
-                    </Select>
+                <Form.Item name="noSymptoms" valuePropName="checked" extra="Symptoms can include cough, sore throat, shortness of breath and runny nose">
+                    <Checkbox>
+                        I confirm that I, and any children I am dropping off, am not currently experiencing symptoms of COVID-19
+                    </Checkbox>
                 </Form.Item>
                 <PrivacyInformation />
                 <Form.Item name="recieveMarketing" valuePropName="checked">
-                    <Checkbox className={classes.marketingCheckbox}checked={requestMarketingChecked} onChange={onMarketingCheckboxChange}>
-                        I would like to additionally sign up to know about what services Fizz Kidz offers
+                    <Checkbox className={classes.marketingCheckbox} checked={requestMarketingChecked} onChange={onMarketingCheckboxChange}>
+                        I would like to additionally sign up to know about what services Fairy Cool Parties offers
                     </Checkbox>
                 </Form.Item>
                 {requestMarketingChecked &&
@@ -115,7 +111,7 @@ const CheckInForm = props => {
                 </Form.Item>}
                 <Form.Item>
                     {disabled
-                        ? <div className={classes.spinWrapper}><Spin className={classes.spin} /></div>
+                        ? <div className={classes.spinWrapper}><Spin /></div>
                         : (
                             <Button type="primary" size="large" htmlType="submit" block disabled={disabled}>
                                 Check in

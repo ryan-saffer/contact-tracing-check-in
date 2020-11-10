@@ -5,9 +5,9 @@ import { message } from 'antd';
 import useSound from 'use-sound'
 import alert from '../../audio/alert.mp3'
 import { FirebaseContext } from '../Firebase';
-import * as Logo from '../../drawables/FizzKidzLogoHorizontal.png'
+import * as Logo from '../../drawables/Logo.gif'
 import CheckInForm from '../CheckInForm/index'
-import SuccessResult from '../Result';
+import FormResult from '../Result';
 import * as Utilities from '../../utilities'
 
 const useStyles = createUseStyles({
@@ -28,6 +28,7 @@ const App = () => {
   const firebase = useContext(FirebaseContext)
 
   const [completed, setCompleted] = useState(false)
+  const [hasSymptoms, setHasSymptoms] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
   const [play] = useSound(alert)
@@ -43,26 +44,30 @@ const App = () => {
     const time = `${Utilities.toTwoDigits(date.getHours())}:${Utilities.toTwoDigits(date.getMinutes())}`
     
     // first write to database
-    firebase.database.ref(`${values.store}/${dateString}`).push({
+    firebase.database.ref(dateString).push({
       parentName: values.parentName,
       mobileNumber: `${values.prefix}${values.mobileNumber}`,
       email: values.email ?? null,
       children: values.children ?? null,
       checkInTime: time,
+      hasSymptoms: values.noSymptoms ? false : true,
       serverTimestamp: firebase.timestamp
     }).then(() => {
-      // then write to hubspot if requested
+      // then write to mailchimp if requested
       if (values.recieveMarketing) {
-        firebase.functions.httpsCallable('writeToHubspot')(values)
+        firebase.functions.httpsCallable('writeToMailchimp')(values)
           .catch(err => console.error(err))
-          .finally(() => {
-            play()
-            setCompleted(true)
-            setTimeout(() => {
-              window.location.href="https://www.fizzkidz.com.au"
-            }, 2000)
-          })
       }
+
+      play()
+      setCompleted(true)
+      if (values.noSymptoms !== true) {
+        console.log("HAS SYMPTOMS")
+        setHasSymptoms(true)
+      }
+      setTimeout(() => {
+        // window.location.href="https://www.fairycoolparties.com.au"
+      }, 2000)
     })
     .catch(err => {
       console.error(err)
@@ -77,7 +82,7 @@ const App = () => {
         <img className={classes.logo} src={Logo.default} />
       </div>
       {completed
-        ? <SuccessResult />
+        ? <FormResult hasSymptoms={hasSymptoms} />
         : <CheckInForm onSubmit={onSubmit} disabled={disabled} />
       }
     </div>
