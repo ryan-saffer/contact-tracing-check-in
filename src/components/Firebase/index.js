@@ -11,7 +11,7 @@ class Firebase {
         this.database = app.database()
         this.functions = app.functions("australia-southeast1")
         if (process.env.NODE_ENV === "development") {
-          this.functions.useFunctionsEmulator("http://localhost:5001");
+          this.functions.useFunctionsEmulator("http://localhost:5000");
         }
         this.timestamp = firebase.default.database.ServerValue.TIMESTAMP
     }

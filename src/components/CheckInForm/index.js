@@ -106,7 +106,7 @@ const CheckInForm = props => {
                     </Checkbox>
                 </Form.Item>
                 {requestMarketingChecked &&
-                <Form.Item name="email" label="Email address" rules={[{ required: true, message: "In order to additionally sign up to our mailing list, email is required" }]}>
+                <Form.Item name="email" label="Email address" rules={[{ required: true, message: "In order to sign up to our mailing list, an email is required" }]}>
                     <Input size="large" />
                 </Form.Item>}
                 <Form.Item>

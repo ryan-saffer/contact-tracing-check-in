@@ -1,32 +1,26 @@
 const functions = require('firebase-functions');
+const mailchimp = require('@mailchimp/mailchimp_marketing');
+
+const API_KEY = "8dad51563d4f3fe08062c6dcb02300cf-us12"
+const LIST_ID = "72e0eeb982"
+
+mailchimp.setConfig({
+    apiKey: API_KEY,
+    server: "us12"
+})
 
 exports.writeToMailchimp = functions.region('australia-southeast1').https.onCall((data, context) => {
 
-    console.log("DATA:")
+    console.log("Writing to mailchimp with data:")
     console.log(data)
-    
-    // return new Promise((resolve, reject) => {
-    //     let contactObj = {
-    //         properties: {
-    //             firstname: data.parentName,
-    //             email: data.email,
-    //             phone: data.mobileNumber,
-    //             party_location: data.store === "balwyn" ? "Balwyn" : "Essendon",
-    //             test_service: "In-store Party;Mobile Party;Holiday Program;Activity Kits"
-    //         }
-    //     }
-          
-    //     hubspotClient.crm.contacts.basicApi.create(contactObj)
-    //         .then(result => {console.log("SUCCESS"); resolve(result)})
-    //         .catch(err => {
-    //             if (err.statusCode === 409) {
-    //                 const filter = { propertyName: 'email', operator: 'GET', value: data.email }
-    //                 const filterGroup = { filters: [filter] }
-    //                 const searchRequest = { filterGroups: [filterGroup] }
-    //                 const getResult = await hubspotClient.crm.contacts.searchApi.doSearch(searchRequest)
-    //                 console.log(JSON.stringify(getResult.body))
-    //             }
-    //             reject(err)
-    //         })
-    // })
+
+    return mailchimp.lists.addListMember(LIST_ID, {
+        email_address: data.email,
+        status: "transactional",
+        merge_fields: {
+            "FNAME": data.parentName
+        }
+    })
+    .then(() => console.log("Write succeeded!"))
+    .catch(err => console.error(err))
 });

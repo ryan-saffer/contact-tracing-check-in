@@ -56,13 +56,10 @@ const App = () => {
       // then write to mailchimp if requested
       if (values.recieveMarketing) {
         firebase.functions.httpsCallable('writeToMailchimp')(values)
-          .catch(err => console.error(err))
       }
-
       play()
       setCompleted(true)
       if (values.noSymptoms !== true) {
-        console.log("HAS SYMPTOMS")
         setHasSymptoms(true)
       }
       setTimeout(() => {
