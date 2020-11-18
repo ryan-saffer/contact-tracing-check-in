@@ -63,7 +63,7 @@ const App = () => {
         setHasSymptoms(true)
       }
       setTimeout(() => {
-        // window.location.href="https://www.fairycoolparties.com.au"
+        window.location.href="https://www.fairycoolparties.com.au"
       }, 2000)
     })
     .catch(err => {
