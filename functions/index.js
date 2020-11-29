@@ -43,5 +43,10 @@ exports.deleteOutdatedEntries = functions
         const dateString = `${date.getFullYear()}${toTwoDigits(date.getMonth() + 1)}${toTwoDigits(date.getDate())}`
 
         functions.logger.log("Removing entries on date:", dateString)
-        db.ref(dateString).remove()
+
+        return new Promise((resolve, reject) => { 
+            db.ref(dateString).remove()
+                .then(() => resolve())
+                .catch(err => reject(err))
+        })
     })
