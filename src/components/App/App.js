@@ -51,19 +51,13 @@ const App = () => {
       checkInTime: time,
       serverTimestamp: firebase.timestamp
     }).then(() => {
-      // then write to hubspot if requested
-      if (values.recieveMarketing) {
-        firebase.functions.httpsCallable('writeToHubspot')(values)
-          .catch(err => console.error(err))
-          .finally(() => {
-            play()
-            setCompleted(true)
-            setTimeout(() => {
-              window.location.href="https://www.fizzkidz.com.au"
-            }, 2000)
-          })
+          play()
+          setCompleted(true)
+          setTimeout(() => {
+            window.location.href="https://www.fizzkidz.com.au"
+          }, 2000)
       }
-    })
+    )
     .catch(err => {
       console.error(err)
       message.error("Something went wrong while checking in.")
